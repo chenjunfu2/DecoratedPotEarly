@@ -1,6 +1,5 @@
 package chenjunfu2.decoratedpotearly;
 
-import chenjunfu2.decoratedpotearly.registry.ModMessages;
 import chenjunfu2.decoratedpotearly.registry.ModParticles;
 import chenjunfu2.decoratedpotearly.registry.ModSoundEvents;
 import net.fabricmc.api.ModInitializer;
@@ -18,6 +17,5 @@ public class DecoratedPotEarly implements ModInitializer
 	{
 		ModParticles.registerParticles();
 		ModSoundEvents.registerSounds();
-		ModMessages.registerMessages();
 	}
 }
