@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "chenjunfu2.decoratedpotearly.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "DecoratedPotBlockEntityMixin",
+    "DecoratedPotBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+	}
+}
