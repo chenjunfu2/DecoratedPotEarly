@@ -58,7 +58,7 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity//继承基�
 					float f;
 					if (((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$isEmpty())
 					{
-						ItemStack itemStack2 = playerStack.split(1);
+						ItemStack itemStack2 = !player.isCreative() ? playerStack.split(1) : playerStack.copyWithCount(1);
 						((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$setStack(itemStack2);
 						f = (float)itemStack2.getCount() / itemStack2.getMaxCount();
 					}
