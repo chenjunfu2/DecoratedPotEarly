@@ -3,6 +3,7 @@ package chenjunfu2.decoratedpotearly.mixin;
 import chenjunfu2.decoratedpotearly.api.DecoratedPotBlockEntityHolder;
 import chenjunfu2.decoratedpotearly.registry.ModParticles;
 import chenjunfu2.decoratedpotearly.registry.ModSoundEvents;
+import chenjunfu2.decoratedpotearly.registry.ModWobbleType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.DecoratedPotBlock;
@@ -51,7 +52,7 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity//继承基�
 				ItemStack itemStack = ((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$getStack();
 				if (!playerStack.isEmpty() && (itemStack.isEmpty() || ItemStack.canCombine(itemStack, playerStack) && itemStack.getCount() < itemStack.getMaxCount()))
 				{
-					//decoratedPotBlockEntity.wobble(DecoratedPotBlockEntity.WobbleType.POSITIVE);
+					((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$wobble(ModWobbleType.POSITIVE);
 					player.incrementStat(Stats.USED.getOrCreateStat(playerStack.getItem()));
 					
 					float f;
@@ -87,7 +88,7 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity//继承基�
 				{
 					//这里走正常方块use路径
 					world.playSound(null, pos, ModSoundEvents.BLOCK_DECORATED_POT_INSERT_FAIL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-					//decoratedPotBlockEntity.wobble(DecoratedPotBlockEntity.WobbleType.NEGATIVE);
+					((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$wobble(ModWobbleType.NEGATIVE);
 					world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 					
 					return ActionResult.SUCCESS;//并总是返回成功
