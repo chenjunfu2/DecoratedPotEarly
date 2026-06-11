@@ -7,6 +7,6 @@ public class ClientModParticles
 {
 	public static void registerParticles()
 	{
-		ParticleFactoryRegistry.getInstance().register(ModParticles.DUST_PLUME, DustPlumeParticle.Factory::new);
+		ParticleFactoryRegistry.getInstance().register(ModParticles.DUST_PLUME, ModDustPlumeParticle.Factory::new);
 	}
 }

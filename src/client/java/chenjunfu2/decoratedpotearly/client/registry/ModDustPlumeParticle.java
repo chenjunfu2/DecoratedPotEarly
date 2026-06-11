@@ -11,11 +11,11 @@ import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.ColorHelper;
 
 @Environment(EnvType.CLIENT)
-public class DustPlumeParticle extends AscendingParticle
+public class ModDustPlumeParticle extends AscendingParticle
 {
 	private static final int COLOR = 12235202;
 	
-	protected DustPlumeParticle(
+	protected ModDustPlumeParticle(
 		ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, float scaleMultiplier, SpriteProvider spriteProvider
 	)
 	{
@@ -46,7 +46,7 @@ public class DustPlumeParticle extends AscendingParticle
 	
 		public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i)
 		{
-			return new DustPlumeParticle(clientWorld, d, e, f, g, h, i, 1.0F, this.spriteProvider);
+			return new ModDustPlumeParticle(clientWorld, d, e, f, g, h, i, 1.0F, this.spriteProvider);
 		}
 	}
 }
