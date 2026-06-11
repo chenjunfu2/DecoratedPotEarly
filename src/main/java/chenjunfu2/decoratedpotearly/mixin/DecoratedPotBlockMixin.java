@@ -1,6 +1,8 @@
 package chenjunfu2.decoratedpotearly.mixin;
 
 import chenjunfu2.decoratedpotearly.api.DecoratedPotBlockEntityHolder;
+import chenjunfu2.decoratedpotearly.registry.ModParticles;
+import chenjunfu2.decoratedpotearly.registry.ModSoundEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.DecoratedPotBlock;
@@ -10,6 +12,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -21,7 +26,7 @@ import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(DecoratedPotBlock.class)
-public abstract class DecoratedPotBlockMixin extends BlockWithEntity
+public abstract class DecoratedPotBlockMixin extends BlockWithEntity//继承基类用于super方法
 {
 	protected DecoratedPotBlockMixin(Settings settings)
 	{
@@ -48,14 +53,13 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity
 				{
 					//decoratedPotBlockEntity.wobble(DecoratedPotBlockEntity.WobbleType.POSITIVE);
 					player.incrementStat(Stats.USED.getOrCreateStat(playerStack.getItem()));
-					//ItemStack itemStack2 = splitUnlessCreative(playerStack,1, player);
 					
-					//float f;
+					float f;
 					if (((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$isEmpty())
 					{
 						ItemStack itemStack2 = playerStack.split(1);
 						((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$setStack(itemStack2);
-						//f = (float)itemStack2.getCount() / itemStack2.getMaxCount();
+						f = (float)itemStack2.getCount() / itemStack2.getMaxCount();
 					}
 					else
 					{
@@ -64,16 +68,16 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity
 							playerStack.decrement(1);
 						}
 						itemStack.increment(1);
-						//f = (float)itemStack.getCount() / itemStack.getMaxCount();
+						f = (float)itemStack.getCount() / itemStack.getMaxCount();
 					}
 					
-					//world.playSound(null, pos, SoundEvents.BLOCK_DECORATED_POT_INSERT, SoundCategory.BLOCKS, 1.0F, 0.7F + 0.5F * f);
+					world.playSound(null, pos, ModSoundEvents.BLOCK_DECORATED_POT_INSERT, SoundCategory.BLOCKS, 1.0F, 0.7F + 0.5F * f);
 					
 					//粒子效果先去掉，后面找替代
-					//if (world instanceof ServerWorld serverWorld)
-					//{
-					//	serverWorld.spawnParticles(ParticleTypes.DUST_PLUME, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 7, 0.0, 0.0, 0.0, 0.0);
-					//}
+					if (world instanceof ServerWorld serverWorld)
+					{
+						serverWorld.spawnParticles(ModParticles.DUST_PLUME, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 7, 0.0, 0.0, 0.0, 0.0);
+					}
 					
 					decoratedPotBlockEntity.markDirty();
 					world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
@@ -81,12 +85,10 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity
 				}
 				else
 				{
-					//return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
-					//return ActionResult.valueOf("PASS_TO_DEFAULT_BLOCK_ACTION");
-					
 					//这里走正常方块use路径
-					
-					
+					world.playSound(null, pos, ModSoundEvents.BLOCK_DECORATED_POT_INSERT_FAIL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+					//decoratedPotBlockEntity.wobble(DecoratedPotBlockEntity.WobbleType.NEGATIVE);
+					world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 					
 					return ActionResult.SUCCESS;//并总是返回成功
 				}
@@ -115,7 +117,7 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity
 		}
 	}
 	
-	//还差一个比较器方法
+	//比较器方法
 	public boolean hasComparatorOutput(BlockState state) {
 		return true;
 	}
