@@ -40,6 +40,7 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity
 			}
 			else
 			{
+				//这里是ItemUse路径
 				ItemStack playerStack = player.getMainHandStack();//只看主手，副手无反应
 				
 				ItemStack itemStack = ((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$getStack();
@@ -81,7 +82,13 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity
 				else
 				{
 					//return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
-					return ActionResult.FAIL;
+					//return ActionResult.valueOf("PASS_TO_DEFAULT_BLOCK_ACTION");
+					
+					//这里走正常方块use路径
+					
+					
+					
+					return ActionResult.SUCCESS;//并总是返回成功
 				}
 			}
 		}

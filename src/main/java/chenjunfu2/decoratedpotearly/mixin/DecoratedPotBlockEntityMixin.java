@@ -4,7 +4,6 @@ package chenjunfu2.decoratedpotearly.mixin;
 import chenjunfu2.decoratedpotearly.api.DecoratedPotBlockEntityHolder;
 import net.minecraft.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
