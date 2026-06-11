@@ -52,9 +52,11 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity//继承基�
 				ItemStack itemStack = ((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$getStack();
 				if (!playerStack.isEmpty() && (itemStack.isEmpty() || ItemStack.canCombine(itemStack, playerStack) && itemStack.getCount() < itemStack.getMaxCount()))
 				{
+					//动画
 					((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$wobble(ModWobbleType.POSITIVE);
 					player.incrementStat(Stats.USED.getOrCreateStat(playerStack.getItem()));
 					
+					//物品交互
 					float f;
 					if (((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$isEmpty())
 					{
@@ -72,14 +74,16 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity//继承基�
 						f = (float)itemStack.getCount() / itemStack.getMaxCount();
 					}
 					
+					//声音
 					world.playSound(null, pos, ModSoundEvents.BLOCK_DECORATED_POT_INSERT, SoundCategory.BLOCKS, 1.0F, 0.7F + 0.5F * f);
 					
-					//粒子效果先去掉，后面找替代
+					//粒子效果
 					if (world instanceof ServerWorld serverWorld)
 					{
 						serverWorld.spawnParticles(ModParticles.DUST_PLUME, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5, 7, 0.0, 0.0, 0.0, 0.0);
 					}
 					
+					//更新
 					decoratedPotBlockEntity.markDirty();
 					world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 					return ActionResult.SUCCESS;
