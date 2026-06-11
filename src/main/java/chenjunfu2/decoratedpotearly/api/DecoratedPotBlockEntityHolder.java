@@ -17,4 +17,16 @@ public interface DecoratedPotBlockEntityHolder
 	
 	@Unique
 	void decoratedpotearly$wobble(ModWobbleType wobbleType);
+	
+	@Unique
+	long decoratedpotearly$getLastWobbleTime();
+	
+	@Unique
+	void decoratedpotearly$setLastWobbleTime(long wobbleTime);
+	
+	@Unique
+	ModWobbleType decoratedpotearly$getLastWobbleType();
+	
+	@Unique
+	void decoratedpotearly$setLastWobbleType(ModWobbleType wobbleType);
 }

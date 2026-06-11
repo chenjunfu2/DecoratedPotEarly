@@ -97,11 +97,42 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 		return this.decoratedpotearly$stack.isEmpty();
 	}
 	
+	@Unique
+	@Override
 	public void decoratedpotearly$wobble(ModWobbleType wobbleType)
 	{
-		if (this.world != null && !this.world.isClient()) {
+		if (this.world != null && !this.world.isClient())
+		{
 			this.world.addSyncedBlockEvent(this.getPos(), this.getCachedState().getBlock(), 1, wobbleType.ordinal());
 		}
+	}
+	
+	@Unique
+	@Override
+	public long decoratedpotearly$getLastWobbleTime()
+	{
+		return decoratedpotearly$lastWobbleTime;
+	}
+	
+	@Unique
+	@Override
+	public void decoratedpotearly$setLastWobbleTime(long wobbleTime)
+	{
+		this.decoratedpotearly$lastWobbleTime = wobbleTime;
+	}
+	
+	@Unique
+	@Override
+	public ModWobbleType decoratedpotearly$getLastWobbleType()
+	{
+		return decoratedpotearly$lastWobbleType;
+	}
+	
+	@Unique
+	@Override
+	public void decoratedpotearly$setLastWobbleType(ModWobbleType wobbleType)
+	{
+		this.decoratedpotearly$lastWobbleType = wobbleType;
 	}
 	
 	//Inventory
