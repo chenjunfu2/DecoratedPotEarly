@@ -7,10 +7,8 @@ import net.minecraft.item.ItemGroups;
 
 public class ModBlocks
 {
-	public static final Block DECORATED_POT = Blocks.DECORATED_POT;
-	
 	public static void registerBlocks()
 	{
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(content -> content.addAfter(Blocks.JUKEBOX, ModBlocks.DECORATED_POT));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(content -> content.addAfter(Blocks.JUKEBOX, Blocks.DECORATED_POT));
 	}
 }
