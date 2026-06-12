@@ -211,7 +211,7 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 	@Override
 	public boolean canPlayerUse(PlayerEntity player)
 	{
-		return true;
+		return Inventory.canPlayerUse(((DecoratedPotBlockEntity)(Object)this),player);
 	}
 	
 	@Override
