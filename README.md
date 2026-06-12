@@ -1,4 +1,4 @@
-# Crafter Early
+# DecoratedPotEarly
 [![GitHub Releases](https://shields.io/github/v/release/chenjunfu2/DecoratedPotEarly)](https://github.com/chenjunfu2/DecoratedPotEarly/releases)
 [![GitHub Releases downloads](https://shields.io/github/downloads/chenjunfu2/DecoratedPotEarly/total)](https://github.com/chenjunfu2/DecoratedPotEarly/releases)
 [![GitHub Repo stars](https://shields.io/github/stars/chenjunfu2/DecoratedPotEarly)](https://github.com/chenjunfu2/DecoratedPotEarly)  
