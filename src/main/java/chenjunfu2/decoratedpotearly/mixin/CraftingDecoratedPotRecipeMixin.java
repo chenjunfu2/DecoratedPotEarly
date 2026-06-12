@@ -1,36 +1,59 @@
 package chenjunfu2.decoratedpotearly.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtElement;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.CraftingDecoratedPotRecipe;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CraftingDecoratedPotRecipe.class)
 public abstract class CraftingDecoratedPotRecipeMixin
 {
-	@ModifyReturnValue
+	@Inject
 	(
 		method = "getPotStackWith",
-		at = @At(value = "RETURN")
+		cancellable = true,
+		at = @At
+		(
+			value = "INVOKE",
+			shift = At.Shift.BEFORE,
+			target = "Lnet/minecraft/block/entity/DecoratedPotBlockEntity$Sherds;toNbt(Lnet/minecraft/nbt/NbtCompound;)Lnet/minecraft/nbt/NbtCompound;"
+		)
 	)
-	private static ItemStack getPotStackWithModifyReturnValue(ItemStack original)
+	private static void getPotStackWithInject(DecoratedPotBlockEntity.Sherds sherds, CallbackInfoReturnable<ItemStack> cir, @Local ItemStack itemStack)
 	{
-		var itemTag = original.getNbt();
-		if(itemTag == null || ! itemTag.contains("BlockEntityTag", NbtElement.COMPOUND_TYPE))
+		if(sherds.back() == Items.BRICK &&
+		   sherds.left() == Items.BRICK &&
+		   sherds.right() == Items.BRICK &&
+		   sherds.front() == Items.BRICK)
 		{
-			return original;
+			cir.setReturnValue(itemStack);
+			cir.cancel();
 		}
-		
-		//获取方块实体tag
-		var tagBETag = itemTag.getCompound("BlockEntityTag");
-		
-		//移除无用id
-		tagBETag.remove("id");
-		
-		//因为总是有其它tag，不做后续处理
-		
-		return original;
+	}
+	
+	@WrapOperation
+	(
+		method = "getPotStackWith",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/item/BlockItem;setBlockEntityNbt(Lnet/minecraft/item/ItemStack;Lnet/minecraft/block/entity/BlockEntityType;Lnet/minecraft/nbt/NbtCompound;)V")
+	)
+	private static void getPotStackWithWrapOperation(ItemStack stack, BlockEntityType<?> blockEntityType, NbtCompound tag, Operation<Void> original)
+	{
+		if (tag.isEmpty())
+		{
+			stack.removeSubNbt("BlockEntityTag");
+		}
+		else
+		{
+			stack.setSubNbt("BlockEntityTag", tag);
+		}
 	}
 }

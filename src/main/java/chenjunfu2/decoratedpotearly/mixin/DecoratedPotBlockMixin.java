@@ -152,6 +152,16 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity//继承基�
 	private static ItemStack decoratedpotearly$getStackWith(DecoratedPotBlockEntity.Sherds sherds)
 	{
 		ItemStack itemStack = Items.DECORATED_POT.getDefaultStack();
+		
+		if(sherds.back() == Items.BRICK &&
+		   sherds.left() == Items.BRICK &&
+		   sherds.right() == Items.BRICK &&
+		   sherds.front() == Items.BRICK)
+		{
+			return itemStack;
+		}
+		
+		//返回自定义nbt
 		NbtCompound nbtCompound = sherds.toNbt(new NbtCompound());
 		itemStack.setSubNbt("BlockEntityTag", nbtCompound);
 		return itemStack;
