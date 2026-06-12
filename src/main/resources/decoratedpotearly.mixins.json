@@ -8,6 +8,7 @@
     "DecoratedPotBlockEntityMixin",
     "DecoratedPotBlockMixin",
     "ItemsMixin",
+    "ServerPlayerInteractionManagerMixin",
     "VanillaBlockLootTableGeneratorMixin"
   ],
   "injectors": {
