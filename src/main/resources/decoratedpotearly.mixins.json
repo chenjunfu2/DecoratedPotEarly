@@ -4,9 +4,11 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "CraftingDecoratedPotRecipeMixin",
+    "DecoratedPotBlockAccessor",
     "DecoratedPotBlockEntityMixin",
     "DecoratedPotBlockMixin",
-    "ItemsMixin"
+    "ItemsMixin",
+    "VanillaBlockLootTableGeneratorMixin"
   ],
   "injectors": {
     "defaultRequire": 1
