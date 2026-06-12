@@ -9,7 +9,9 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.BlockPos;
@@ -105,6 +107,15 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 		{
 			this.world.addSyncedBlockEvent(this.getPos(), this.getCachedState().getBlock(), 1, wobbleType.ordinal());
 		}
+	}
+	
+	@Unique
+	public static ItemStack decoratedpotearly$getStackWith(DecoratedPotBlockEntity.Sherds sherds)
+	{
+		ItemStack itemStack = Items.DECORATED_POT.getDefaultStack();
+		NbtCompound nbtCompound = sherds.toNbt(new NbtCompound());
+		itemStack.setSubNbt("BlockEntityTag", nbtCompound);
+		return itemStack;
 	}
 	
 	@Unique

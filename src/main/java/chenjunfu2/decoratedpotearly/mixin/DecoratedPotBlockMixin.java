@@ -27,7 +27,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -43,6 +45,7 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity//继承基�
 	}
 	
 	//覆盖DecoratedPotBlock的基类onUse方法
+	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit)
 	{
 		//DecoratedPotEarly.LOGGER.info("onUse");
@@ -115,6 +118,7 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity//继承基�
 	
 	//覆盖基类
 	//内部物品掉落
+	@Override
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)
 	{
 		if (!state.isOf(newState.getBlock()))
@@ -131,13 +135,29 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity//继承基�
 	}
 	
 	//比较器方法
+	@Override
 	public boolean hasComparatorOutput(BlockState state) {
 		return true;
 	}
 	
+	@Override
 	public int getComparatorOutput(BlockState state, World world, BlockPos pos)
 	{
 		return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
+	}
+	
+	@Override
+	public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state)
+	{
+		if (world.getBlockEntity(pos) instanceof DecoratedPotBlockEntity decoratedPotBlockEntity)
+		{
+			DecoratedPotBlockEntity.Sherds sherds = decoratedPotBlockEntity.getSherds();
+			return DecoratedPotBlockEntityMixin.decoratedpotearly$getStackWith(sherds);
+		}
+		else
+		{
+			return super.getPickStack(world, pos, state);
+		}
 	}
 	
 	
