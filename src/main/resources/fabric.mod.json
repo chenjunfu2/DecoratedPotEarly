@@ -3,13 +3,13 @@
 	"id": "decoratedpotearly",
 	"version": "${version}",
 	"name": "DecoratedPotEarly",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Port the item storage, animation, and interaction features of decorated pots from higher versions.",
 	"authors": [
-		"Me!"
+		"chenjunfu2"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "NULL",
+		"sources": "https://github.com/chenjunfu2/DecoratedPotEarly"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/decoratedpotearly/icon.png",
