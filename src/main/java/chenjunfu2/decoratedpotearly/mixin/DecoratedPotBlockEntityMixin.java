@@ -110,15 +110,6 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 	}
 	
 	@Unique
-	public static ItemStack decoratedpotearly$getStackWith(DecoratedPotBlockEntity.Sherds sherds)
-	{
-		ItemStack itemStack = Items.DECORATED_POT.getDefaultStack();
-		NbtCompound nbtCompound = sherds.toNbt(new NbtCompound());
-		itemStack.setSubNbt("BlockEntityTag", nbtCompound);
-		return itemStack;
-	}
-	
-	@Unique
 	@Override
 	public long decoratedpotearly$getLastWobbleTime()
 	{

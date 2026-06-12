@@ -13,6 +13,7 @@ import net.minecraft.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -32,6 +33,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.List;
@@ -146,20 +148,28 @@ public abstract class DecoratedPotBlockMixin extends BlockWithEntity//继承基�
 		return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
 	}
 	
+	@Unique
+	private static ItemStack decoratedpotearly$getStackWith(DecoratedPotBlockEntity.Sherds sherds)
+	{
+		ItemStack itemStack = Items.DECORATED_POT.getDefaultStack();
+		NbtCompound nbtCompound = sherds.toNbt(new NbtCompound());
+		itemStack.setSubNbt("BlockEntityTag", nbtCompound);
+		return itemStack;
+	}
+	
 	@Override
 	public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state)
 	{
 		if (world.getBlockEntity(pos) instanceof DecoratedPotBlockEntity decoratedPotBlockEntity)
 		{
 			DecoratedPotBlockEntity.Sherds sherds = decoratedPotBlockEntity.getSherds();
-			return DecoratedPotBlockEntityMixin.decoratedpotearly$getStackWith(sherds);
+			return decoratedpotearly$getStackWith(sherds);
 		}
 		else
 		{
 			return super.getPickStack(world, pos, state);
 		}
 	}
-	
 	
 	//NBT修复
 	@ModifyReturnValue(
