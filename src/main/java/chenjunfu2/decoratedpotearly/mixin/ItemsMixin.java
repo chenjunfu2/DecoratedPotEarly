@@ -23,7 +23,7 @@ public abstract class ItemsMixin
 	private static Item.Settings modifyDecoratedPotStackSize(Item.Settings instance, int maxCount, Operation<Item.Settings> original)
 	{
 		//取消调用，回到64
-		//original.call(instance, 64);
+		//original.call(instance, maxCount);
 		return instance;
 	}
 }
