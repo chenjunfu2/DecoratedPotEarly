@@ -201,7 +201,7 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 		this.decoratedpotearly$stack = decoratedPotItemStack;
 	}
 	
-	//DecoratedPotBlockEntity以实现，默认自动覆写，无需重复调用，否则会导致java.lang.StackOverflowError
+	//DecoratedPotBlockEntity已实现，默认自动覆写，无需重复调用，否则会导致java.lang.StackOverflowError
 	//@Override
 	//public void markDirty()
 	//{
