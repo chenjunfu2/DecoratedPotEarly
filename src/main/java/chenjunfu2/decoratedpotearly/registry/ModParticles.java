@@ -8,7 +8,13 @@ import net.minecraft.util.Identifier;
 
 public class ModParticles
 {
-	public static final DefaultParticleType DUST_PLUME = Registry.register(Registries.PARTICLE_TYPE, new Identifier("dust_plume"), FabricParticleTypes.simple(false));
+	public static final DefaultParticleType DUST_PLUME =
+		Registry.register
+		(
+			Registries.PARTICLE_TYPE,
+			new Identifier("dust_plume"),
+			FabricParticleTypes.simple(false)
+		);
 	
 	public static void registerParticles() {}
 }

@@ -1,20 +1,19 @@
 package chenjunfu2.decoratedpotearly.mixin;
 
 
-import chenjunfu2.decoratedpotearly.api.DecoratedPotBlockEntityHolder;
-import chenjunfu2.decoratedpotearly.registry.ModWobbleType;
+import chenjunfu2.decoratedpotearly.api.DecoratedPotBlockEntityHelper;
+import chenjunfu2.decoratedpotearly.data.DecoratedPotWobbleType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.math.BlockPos;
+import org.spongepowered.asm.mixin.Intrinsic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(DecoratedPotBlockEntity.class)
-public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implements DecoratedPotBlockEntityHolder, Inventory
+public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implements DecoratedPotBlockEntityHelper, Inventory
 {
 	// super
 	public DecoratedPotBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state)
@@ -35,7 +34,7 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 	public long decoratedpotearly$lastWobbleTime;
 	
 	@Unique
-	public ModWobbleType decoratedpotearly$lastWobbleType;
+	public DecoratedPotWobbleType decoratedpotearly$lastWobbleType;
 	
 	@Unique
 	private ItemStack decoratedpotearly$stack = ItemStack.EMPTY;
@@ -43,10 +42,10 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 	// Override BlockEntity
 	@Override
 	public boolean onSyncedBlockEvent(int type, int data) {
-		if (this.world != null && type == 1 && data >= 0 && data < ModWobbleType.values().length)
+		if (this.world != null && type == 1 && data >= 0 && data < DecoratedPotWobbleType.values().length)
 		{
 			this.decoratedpotearly$lastWobbleTime = this.world.getTime();
-			this.decoratedpotearly$lastWobbleType = ModWobbleType.values()[data];
+			this.decoratedpotearly$lastWobbleType = DecoratedPotWobbleType.values()[data];
 			return true;
 		}
 		else
@@ -77,7 +76,7 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 		}
 	}
 	
-	// DecoratedPotBlockEntityHolder
+	// DecoratedPotBlockEntityHelper
 	@Unique
 	@Override
 	public ItemStack decoratedpotearly$getStack()
@@ -101,7 +100,7 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 	
 	@Unique
 	@Override
-	public void decoratedpotearly$wobble(ModWobbleType wobbleType)
+	public void decoratedpotearly$wobble(DecoratedPotWobbleType wobbleType)
 	{
 		if (this.world != null && !this.world.isClient())
 		{
@@ -125,14 +124,14 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 	
 	@Unique
 	@Override
-	public ModWobbleType decoratedpotearly$getLastWobbleType()
+	public DecoratedPotWobbleType decoratedpotearly$getLastWobbleType()
 	{
 		return decoratedpotearly$lastWobbleType;
 	}
 	
 	@Unique
 	@Override
-	public void decoratedpotearly$setLastWobbleType(ModWobbleType wobbleType)
+	public void decoratedpotearly$setLastWobbleType(DecoratedPotWobbleType wobbleType)
 	{
 		this.decoratedpotearly$lastWobbleType = wobbleType;
 	}
@@ -169,15 +168,8 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 		{
 			return ItemStack.EMPTY;
 		}
-		
-		ItemStack retStack = this.decoratedpotearly$stack.split(amount);
-		
-		//if (!this.decoratedpotearly$stack.isEmpty())
-		//{
-		//	this.markDirty();
-		//}
 
-		return retStack;
+		return this.decoratedpotearly$stack.split(amount);
 	}
 
 	@Override
@@ -188,7 +180,6 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 			return ItemStack.EMPTY;
 		}
 		
-		//this.markDirty();
 		return this.decoratedpotearly$stack = ItemStack.EMPTY;
 	}
 	
@@ -203,12 +194,12 @@ public abstract class DecoratedPotBlockEntityMixin extends BlockEntity implement
 		this.decoratedpotearly$stack = decoratedPotItemStack;
 	}
 	
-	//DecoratedPotBlockEntity已实现，默认自动覆写，无需重复调用，否则会导致java.lang.StackOverflowError
-	//@Override
-	//public void markDirty()
-	//{
-	//	((DecoratedPotBlockEntity)(Object)this).markDirty();
-	//}
+	@Override
+	@Intrinsic
+	public void markDirty()
+	{
+		super.markDirty();
+	}
 	
 	@Override
 	public boolean canPlayerUse(PlayerEntity player)

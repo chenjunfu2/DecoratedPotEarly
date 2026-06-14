@@ -1,7 +1,7 @@
 package chenjunfu2.decoratedpotearly.client.mixin;
 
-import chenjunfu2.decoratedpotearly.api.DecoratedPotBlockEntityHolder;
-import chenjunfu2.decoratedpotearly.registry.ModWobbleType;
+import chenjunfu2.decoratedpotearly.api.DecoratedPotBlockEntityHelper;
+import chenjunfu2.decoratedpotearly.data.DecoratedPotWobbleType;
 import net.minecraft.block.entity.DecoratedPotBlockEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.DecoratedPotBlockEntityRenderer;
@@ -28,13 +28,13 @@ public class DecoratedPotBlockEntityRendererMixin
 	)
 	void renderInject(DecoratedPotBlockEntity decoratedPotBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j, CallbackInfo ci)
 	{
-		ModWobbleType wobbleType = ((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$getLastWobbleType();
+		DecoratedPotWobbleType wobbleType = ((DecoratedPotBlockEntityHelper)decoratedPotBlockEntity).decoratedpotearly$getLastWobbleType();
 		if (wobbleType != null && decoratedPotBlockEntity.getWorld() != null)
 		{
-			float g = ((float)(decoratedPotBlockEntity.getWorld().getTime() - ((DecoratedPotBlockEntityHolder)decoratedPotBlockEntity).decoratedpotearly$getLastWobbleTime()) + f) / wobbleType.lengthInTicks;
+			float g = ((float)(decoratedPotBlockEntity.getWorld().getTime() - ((DecoratedPotBlockEntityHelper)decoratedPotBlockEntity).decoratedpotearly$getLastWobbleTime()) + f) / wobbleType.lengthInTicks;
 			if (g >= 0.0F && g <= 1.0F)
 			{
-				if (wobbleType == ModWobbleType.POSITIVE)
+				if (wobbleType == DecoratedPotWobbleType.POSITIVE)
 				{
 					float h = 0.015625F;
 					float k = g * (float) (Math.PI * 2);
